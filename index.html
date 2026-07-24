@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦒</text></svg>">
+<meta charset="utf-8">
+<title>$EUGENE — Eugene the Giraffe</title>
+<style>
+  :root{
+    --sun:#FFD966;
+    --sun-deep:#F5B93E;
+    --cream:#FFF6D2;
+    --leaf:#7FB93C;
+    --leaf-deep:#578A26;
+    --choc:#5A3418;
+    --choc-deep:#3E2410;
+    --plank:#E8B96F;
+    --plank-hi:#F6D394;
+    --heart:#F4628C;
+    --sky:#FFEFB0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html, body, a, button{
+    cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='34'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23FFFDF2'/><stop offset='1' stop-color='%23BFC9D4'/></linearGradient></defs><path d='M9 4 L27 17 L18.5 18.6 L23 28.5 L17.6 30.6 L13.4 20.6 L8 26 Z' fill='url(%23g)' stroke='%232B1A0C' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/></svg>") 9 4, auto;
+  }
+  body{
+    font-family:"Arial Rounded MT Bold","Trebuchet MS","Comic Sans MS",Verdana,sans-serif;
+    color:var(--choc);
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, #FFF9DC 0%, var(--sky) 35%, var(--sun) 75%, var(--sun-deep) 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+    line-height:1.5;
+  }
+
+  /* ---------- sun rays ---------- */
+  .rays{
+    position:fixed; inset:-60vh -30vw auto -30vw; height:160vh;
+    background:repeating-conic-gradient(from 0deg at 50% 0%,
+      rgba(255,255,255,.28) 0deg 6deg, rgba(255,255,255,0) 6deg 18deg);
+    pointer-events:none; z-index:0;
+    animation:raySpin 90s linear infinite;
+    transform-origin:50% 0%;
+  }
+  @keyframes raySpin{to{transform:rotate(18deg)}}
+  @media (prefers-reduced-motion: reduce){
+    .rays{animation:none}
+    .sparkle{animation:none}
+    .eugene-wrap{animation:none}
+  }
+
+  main{position:relative; z-index:1}
+
+  /* ---------- bubble lettering ---------- */
+  .bubble{
+    font-weight:900;
+    color:var(--cream);
+    -webkit-text-stroke:2px var(--choc);
+    paint-order:stroke fill;
+    text-shadow:
+      0 4px 0 var(--choc),
+      0 7px 0 var(--choc-deep),
+      0 12px 18px rgba(62,36,16,.35);
+    letter-spacing:.02em;
+    text-wrap:balance;
+  }
+  .bubble-green{
+    color:#B8E06A;
+    -webkit-text-stroke:2px var(--choc);
+    paint-order:stroke fill;
+    text-shadow:0 3px 0 var(--choc), 0 6px 12px rgba(62,36,16,.3);
+    font-weight:900;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:92vh;
+    display:grid;
+    grid-template-columns:minmax(260px,420px) 1fr;
+    align-items:center;
+    gap:2rem;
+    max-width:1150px;
+    margin:0 auto;
+    padding:3rem 1.5rem 4rem;
+  }
+  .hero-copy{text-align:center}
+  .ticker-chip{
+    display:inline-flex; align-items:center; gap:.5rem;
+    background:var(--cream);
+    border:3px solid var(--choc);
+    border-radius:999px;
+    padding:.35rem 1.1rem;
+    font-size:.95rem;
+    font-weight:bold;
+    letter-spacing:.12em;
+    box-shadow:0 3px 0 var(--choc-deep);
+    margin-bottom:1.2rem;
+  }
+  .ticker-chip .dot{width:.6em;height:.6em;border-radius:50%;background:var(--leaf);border:2px solid var(--choc)}
+  .hero h1{
+    font-size:clamp(3.2rem, 9vw, 6.5rem);
+    line-height:.95;
+  }
+  .hero .the-giraffe{
+    font-size:clamp(1.6rem, 4.5vw, 3rem);
+    margin-top:.4rem;
+    display:flex; align-items:center; justify-content:center; gap:.6em;
+  }
+  .leafling{width:1.1em; height:auto; flex:none}
+
+  .wood-sign{
+    display:inline-block;
+    margin-top:1.6rem;
+    background:linear-gradient(180deg, var(--plank-hi), var(--plank));
+    border:3px solid var(--choc);
+    border-radius:14px;
+    padding:.7rem 1.6rem;
+    font-size:clamp(1.05rem, 2.6vw, 1.5rem);
+    font-weight:bold;
+    letter-spacing:.06em;
+    box-shadow:0 5px 0 var(--choc-deep), inset 0 2px 0 rgba(255,255,255,.5);
+    position:relative;
+  }
+  .wood-sign::before,.wood-sign::after{
+    content:"·"; color:var(--choc); font-weight:900; margin:0 .4em;
+  }
+  .heart{color:var(--heart); -webkit-text-stroke:0; text-shadow:none}
+
+  .cta-row{
+    margin-top:2rem;
+    display:flex; flex-wrap:wrap; gap:.9rem; justify-content:center;
+  }
+  .btn{
+    display:inline-block;
+    font-family:inherit;
+    font-size:1.05rem;
+    font-weight:bold;
+    letter-spacing:.05em;
+    padding:.8rem 1.7rem;
+    border-radius:999px;
+    border:3px solid var(--choc);
+    cursor:pointer;
+    text-decoration:none;
+    color:var(--choc);
+    box-shadow:0 5px 0 var(--choc-deep);
+    transition:transform .12s ease, box-shadow .12s ease;
+    background:var(--cream);
+  }
+  .btn-buy{background:linear-gradient(180deg,#A6DB5C,var(--leaf)); color:#23400D}
+  .btn:hover{transform:translateY(2px); box-shadow:0 3px 0 var(--choc-deep)}
+  .btn:active{transform:translateY(5px); box-shadow:0 0 0 var(--choc-deep)}
+  .btn:focus-visible{outline:4px solid var(--heart); outline-offset:3px}
+
+  /* ---------- Eugene ---------- */
+  .eugene-wrap{
+    display:flex; justify-content:center;
+    animation:bob 5s ease-in-out infinite;
+  }
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .eugene-wrap svg{width:100%; max-width:380px; height:auto; filter:drop-shadow(0 14px 22px rgba(90,52,24,.3))}
+
+  .sparkle{
+    position:absolute; color:#FFFDF0; font-size:1.4rem;
+    text-shadow:0 0 8px rgba(255,255,255,.9);
+    animation:twinkle 2.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes twinkle{0%,100%{opacity:.25; transform:scale(.8)}50%{opacity:1; transform:scale(1.15)}}
+
+  /* ---------- sections ---------- */
+  section{
+    max-width:960px;
+    margin:0 auto;
+    padding:3.5rem 1.5rem;
+    position:relative;
+  }
+  .section-title{
+    text-align:center;
+    font-size:clamp(2rem, 5.5vw, 3.2rem);
+    margin-bottom:2.2rem;
+  }
+
+  .story-card{
+    background:var(--cream);
+    border:3px solid var(--choc);
+    border-radius:22px;
+    box-shadow:0 6px 0 var(--choc-deep);
+    padding:2rem 2.2rem;
+    font-size:1.1rem;
+    max-width:62ch;
+    margin:0 auto;
+  }
+  .story-card p + p{margin-top:1em}
+
+  /* neckonomics */
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
+    gap:1.2rem;
+  }
+  .stat{
+    background:linear-gradient(180deg, var(--plank-hi), var(--plank));
+    border:3px solid var(--choc);
+    border-radius:16px;
+    box-shadow:0 5px 0 var(--choc-deep), inset 0 2px 0 rgba(255,255,255,.5);
+    padding:1.4rem 1.2rem;
+    text-align:center;
+  }
+  .stat .num{
+    font-size:1.9rem; font-weight:900; letter-spacing:.02em;
+    font-variant-numeric:tabular-nums;
+    display:block;
+  }
+  .stat .lbl{
+    display:block; margin-top:.35rem;
+    font-size:.8rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--choc-deep);
+  }
+
+  /* how to buy */
+  .steps{
+    display:grid; gap:1.1rem;
+    counter-reset:step;
+    max-width:640px; margin:0 auto;
+  }
+  .step{
+    counter-increment:step;
+    background:var(--cream);
+    border:3px solid var(--choc);
+    border-radius:18px;
+    box-shadow:0 5px 0 var(--choc-deep);
+    padding:1.2rem 1.4rem 1.2rem 4.4rem;
+    position:relative;
+  }
+  .step::before{
+    content:counter(step);
+    position:absolute; left:1.1rem; top:50%; transform:translateY(-50%);
+    width:2.2rem; height:2.2rem;
+    display:grid; place-items:center;
+    background:linear-gradient(180deg,#A6DB5C,var(--leaf));
+    border:3px solid var(--choc);
+    border-radius:50%;
+    font-weight:900; font-size:1.1rem; color:#23400D;
+    box-shadow:0 3px 0 var(--choc-deep);
+  }
+  .step b{display:block; margin-bottom:.15rem}
+
+  /* contract strip */
+  .contract{
+    max-width:720px; margin:0 auto; text-align:center;
+  }
+  .contract-box{
+    display:flex; align-items:center; gap:.8rem; justify-content:center; flex-wrap:wrap;
+    background:linear-gradient(180deg, var(--plank-hi), var(--plank));
+    border:3px solid var(--choc);
+    border-radius:14px;
+    box-shadow:0 5px 0 var(--choc-deep), inset 0 2px 0 rgba(255,255,255,.5);
+    padding:1rem 1.3rem;
+    font-size:.95rem;
+  }
+  .contract-box code{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    background:var(--cream);
+    border:2px solid var(--choc);
+    border-radius:8px;
+    padding:.3rem .7rem;
+    font-size:.85rem;
+    word-break:break-all;
+  }
+  .copy-btn{
+    font-family:inherit; font-weight:bold; font-size:.85rem;
+    border:2.5px solid var(--choc); border-radius:999px;
+    background:var(--cream); color:var(--choc);
+    padding:.35rem 1rem; cursor:pointer;
+    box-shadow:0 3px 0 var(--choc-deep);
+  }
+  .copy-btn:hover{transform:translateY(1px); box-shadow:0 2px 0 var(--choc-deep)}
+  .copy-btn:focus-visible{outline:3px solid var(--heart); outline-offset:2px}
+
+  /* social buttons */
+  .socials{
+    grid-column:1 / -1;
+    display:flex; justify-content:center; gap:1.1rem;
+    margin-bottom:.5rem;
+  }
+  .social-btn{
+    display:grid; place-items:center;
+    width:66px; height:66px;
+    background:linear-gradient(180deg, #6B4423, var(--choc-deep));
+    border:4px solid var(--cream);
+    border-radius:20px;
+    outline:3px solid var(--choc);
+    box-shadow:0 6px 0 var(--choc-deep), 0 10px 16px rgba(62,36,16,.3);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .social-btn svg{width:32px; height:32px; fill:var(--cream)}
+  .social-btn:hover{transform:translateY(3px); box-shadow:0 3px 0 var(--choc-deep), 0 6px 10px rgba(62,36,16,.3)}
+  .social-btn:focus-visible{outline:3px solid var(--heart)}
+
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr; text-align:center; padding-top:2rem}
+    .eugene-wrap{order:-1}
+    .socials{order:-2}
+    .eugene-wrap svg{max-width:250px}
+  }
+</style>
+
+<div class="rays" aria-hidden="true"></div>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <nav class="socials" aria-label="Community links">
+      <a class="social-btn" href="https://x.com/i/communities/2031102236269424986" target="_blank" rel="noopener" aria-label="Eugene community on X">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/></svg>
+      </a>
+    </nav>
+    <div class="eugene-wrap" aria-hidden="true">
+      <!-- Eugene -->
+      <svg viewBox="0 0 300 380" role="img" aria-label="Eugene the cartoon giraffe">
+        <defs>
+          <radialGradient id="hide" cx="45%" cy="35%" r="80%">
+            <stop offset="0%" stop-color="#FFE3A0"/>
+            <stop offset="100%" stop-color="#F4BE6A"/>
+          </radialGradient>
+        </defs>
+        <!-- tail -->
+        <path d="M95 268 Q70 280 72 305" fill="none" stroke="#F4BE6A" stroke-width="10" stroke-linecap="round"/>
+        <ellipse cx="72" cy="310" rx="11" ry="14" fill="#6B4423"/>
+        <!-- legs -->
+        <g fill="url(#hide)" stroke="#8A5A2B" stroke-width="3">
+          <rect x="103" y="290" width="20" height="62" rx="10"/>
+          <rect x="136" y="296" width="20" height="58" rx="10"/>
+          <rect x="168" y="296" width="20" height="58" rx="10"/>
+          <rect x="198" y="290" width="20" height="62" rx="10"/>
+        </g>
+        <g fill="#5A3418">
+          <ellipse cx="113" cy="352" rx="12" ry="8"/>
+          <ellipse cx="146" cy="354" rx="12" ry="8"/>
+          <ellipse cx="178" cy="354" rx="12" ry="8"/>
+          <ellipse cx="208" cy="352" rx="12" ry="8"/>
+        </g>
+        <!-- body -->
+        <ellipse cx="160" cy="262" rx="70" ry="48" fill="url(#hide)" stroke="#8A5A2B" stroke-width="3"/>
+        <!-- neck -->
+        <path d="M196 236 Q206 160 196 108 L156 112 Q158 170 138 228 Z" fill="url(#hide)" stroke="#8A5A2B" stroke-width="3"/>
+        <!-- mane -->
+        <path d="M196 110 Q210 150 204 226" fill="none" stroke="#7A4A20" stroke-width="9" stroke-linecap="round" stroke-dasharray="2 10"/>
+        <!-- spots -->
+        <g fill="#E09A3E" opacity=".85">
+          <ellipse cx="140" cy="255" rx="14" ry="11"/>
+          <ellipse cx="178" cy="278" rx="12" ry="10"/>
+          <ellipse cx="195" cy="248" rx="10" ry="8"/>
+          <ellipse cx="120" cy="280" rx="10" ry="8"/>
+          <ellipse cx="172" cy="150" rx="9" ry="11"/>
+          <ellipse cx="182" cy="195" rx="8" ry="10"/>
+        </g>
+        <!-- head -->
+        <g>
+          <!-- ears -->
+          <ellipse cx="120" cy="74" rx="20" ry="12" fill="url(#hide)" stroke="#8A5A2B" stroke-width="3" transform="rotate(-25 120 74)"/>
+          <ellipse cx="224" cy="74" rx="20" ry="12" fill="url(#hide)" stroke="#8A5A2B" stroke-width="3" transform="rotate(25 224 74)"/>
+          <ellipse cx="122" cy="76" rx="10" ry="5" fill="#F7D9A8" transform="rotate(-25 122 76)"/>
+          <ellipse cx="222" cy="76" rx="10" ry="5" fill="#F7D9A8" transform="rotate(25 222 76)"/>
+          <!-- ossicones -->
+          <line x1="152" y1="48" x2="146" y2="22" stroke="#B5813F" stroke-width="8" stroke-linecap="round"/>
+          <line x1="192" y1="48" x2="198" y2="22" stroke="#B5813F" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="145" cy="16" r="11" fill="#5A3418"/>
+          <circle cx="199" cy="16" r="11" fill="#5A3418"/>
+          <!-- face -->
+          <ellipse cx="172" cy="78" rx="52" ry="46" fill="url(#hide)" stroke="#8A5A2B" stroke-width="3"/>
+          <!-- fluffy tuft -->
+          <g fill="#7A4A20">
+            <circle cx="160" cy="42" r="10"/>
+            <circle cx="174" cy="38" r="11"/>
+            <circle cx="188" cy="43" r="9"/>
+          </g>
+          <!-- muzzle -->
+          <ellipse cx="172" cy="98" rx="30" ry="21" fill="#FBE7C0" stroke="#8A5A2B" stroke-width="2.5"/>
+          <ellipse cx="161" cy="94" rx="4" ry="5.5" fill="#7A4A20"/>
+          <ellipse cx="183" cy="94" rx="4" ry="5.5" fill="#7A4A20"/>
+          <path d="M160 108 Q172 118 184 108" fill="none" stroke="#7A4A20" stroke-width="3.5" stroke-linecap="round"/>
+          <!-- eyes -->
+          <g>
+            <ellipse cx="150" cy="70" rx="11" ry="13" fill="#fff" stroke="#8A5A2B" stroke-width="2"/>
+            <ellipse cx="194" cy="70" rx="11" ry="13" fill="#fff" stroke="#8A5A2B" stroke-width="2"/>
+            <circle cx="152" cy="72" r="6.5" fill="#4A2B12"/>
+            <circle cx="192" cy="72" r="6.5" fill="#4A2B12"/>
+            <circle cx="154" cy="69" r="2.2" fill="#fff"/>
+            <circle cx="194" cy="69" r="2.2" fill="#fff"/>
+          </g>
+          <!-- lashes -->
+          <path d="M138 60 q-6 -4 -10 -3 M141 56 q-4 -5 -8 -6" stroke="#4A2B12" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M206 60 q6 -4 10 -3 M203 56 q4 -5 8 -6" stroke="#4A2B12" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- blush -->
+          <ellipse cx="134" cy="88" rx="8" ry="5" fill="#F4A26B" opacity=".6"/>
+          <ellipse cx="210" cy="88" rx="8" ry="5" fill="#F4A26B" opacity=".6"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hero-copy">
+      <span class="sparkle" style="top:6%; left:10%">✦</span>
+      <span class="sparkle" style="top:14%; right:8%; animation-delay:.9s">✦</span>
+      <span class="sparkle" style="top:55%; left:4%; animation-delay:1.6s">✦</span>
+      <div class="ticker-chip"><span class="dot"></span>$EUGENE · NOW GRAZING</div>
+      <h1 class="bubble">EUGENE</h1>
+      <div class="the-giraffe bubble-green">
+        <svg class="leafling" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 C4 8 14 4 21 3 C20 12 14 20 4 20 Z" fill="#8CC63F" stroke="#5A3418" stroke-width="1.6"/><path d="M6 18 C10 13 15 8 19 5" stroke="#5A3418" stroke-width="1.4" fill="none"/></svg>
+        THE GIRAFFE
+        <svg class="leafling" viewBox="0 0 24 24" aria-hidden="true" style="transform:scaleX(-1)"><path d="M4 20 C4 8 14 4 21 3 C20 12 14 20 4 20 Z" fill="#8CC63F" stroke="#5A3418" stroke-width="1.6"/><path d="M6 18 C10 13 15 8 19 5" stroke="#5A3418" stroke-width="1.4" fill="none"/></svg>
+      </div>
+      <div class="wood-sign">FLUFFY TUFT, BIG HEART <span class="heart">❤</span></div>
+      <div class="cta-row">
+        <a class="btn btn-buy" href="#buy">🌿 Buy $EUGENE</a>
+        <a class="btn" href="#story">Meet Eugene</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ CONTRACT ============ -->
+  <section id="contract" style="padding-top:0; padding-bottom:1rem">
+    <div class="contract">
+      <div class="contract-box">
+        <span><b>CA:</b></span>
+        <code id="ca">EUGENExxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
+        <button class="copy-btn" id="copyBtn" type="button">Copy</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section id="story">
+    <h2 class="section-title bubble">WHO IS EUGENE?</h2>
+    <div class="story-card">
+      <p>Born at the Toledo Zoo with <b>a full head of hair, parted down the middle</b>. Day one. No giraffe has ever done this. Eugene understood the assignment before he could stand.</p>
+      <p>One TikTok later, the whole internet looked up.</p>
+      <p><b>Jimothy the raccoon had a good run.</b> But the throne is measured in inches — and Eugene grows one a day. <b>Sorry, Jimothy.</b> 🦒</p>
+    </div>
+  </section>
+
+  <!-- ============ NECKONOMICS ============ -->
+  <section id="neckonomics">
+    <h2 class="section-title bubble">NECKONOMICS</h2>
+    <div class="stat-grid">
+      <div class="stat"><span class="num">1B</span><span class="lbl">Total supply · tall by design</span></div>
+      <div class="stat"><span class="num">0% / 0%</span><span class="lbl">Buy & sell tax · Eugene shares</span></div>
+      <div class="stat"><span class="num">100%</span><span class="lbl">Liquidity burned forever</span></div>
+      <div class="stat"><span class="num">100%</span><span class="lbl">Fluff · scientifically verified</span></div>
+    </div>
+  </section>
+
+  <!-- ============ HOW TO BUY ============ -->
+  <section id="buy">
+    <h2 class="section-title bubble">HOW TO ADOPT EUGENE</h2>
+    <div class="steps">
+      <div class="step"><b>Get a wallet</b> Download a self-custody wallet like Phantom or Solflare and keep your seed phrase somewhere safer than a giraffe's memory.</div>
+      <div class="step"><b>Feed it some SOL</b> Buy SOL on an exchange and send it to your wallet. Eugene runs on Solana — fast, cheap, and sunny.</div>
+      <div class="step"><b>Swap for $EUGENE</b> Open your favorite DEX, paste the official contract address above, and swap. Always double-check the address — Eugene has impostors.</div>
+      <div class="step"><b>Stand tall together</b> That's it. You now hold Eugene. He now holds you (emotionally).</div>
+    </div>
+  </section>
+
+  <div style="height:4rem"></div>
+</main>
+
+<script>
+  document.getElementById('copyBtn').addEventListener('click', async function(){
+    var ca = document.getElementById('ca').textContent;
+    try{
+      await navigator.clipboard.writeText(ca);
+      this.textContent = 'Copied!';
+    }catch(e){
+      this.textContent = 'Select & copy';
+    }
+    var btn = this;
+    setTimeout(function(){ btn.textContent = 'Copy'; }, 1800);
+  });
+</script>
+
+</html>
